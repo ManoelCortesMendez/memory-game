@@ -1,0 +1,39 @@
+body {
+    background-image: url(../img/geometric-bg-light.png);
+    margin: 0; /*Reset margins*/
+    display: grid;
+    grid-template-areas:
+    "header"
+    "board"
+    "score";
+    grid-row-gap: 16px;
+    justify-items: center;
+}
+
+h1 {
+    background-color: lightblue;
+    margin: 0; /*Reset margins*/
+    grid-area: header;
+}
+
+ul {
+    background-color: lightblue;
+    margin: 0; /*Reset margins*/
+    padding: 8px;
+    list-style-type: none;
+    grid-area: board;
+    display: grid;
+    grid-template-columns: auto auto auto auto; /* TODO: Find shorter equivalent */
+    grid-template-rows: auto auto auto auto; /* TODO: Find shorter equivalent */
+    grid-column-gap: 8px;
+    grid-row-gap: 8px;
+}
+
+li {
+    background-color: blue;
+}
+
+section {
+    background-color: lightblue;
+    grid-area: score;
+}
