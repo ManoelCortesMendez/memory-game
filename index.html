@@ -4,32 +4,42 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800i" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
 </head>
 <body>
 
     <h1>Memory Game</h1>
 
-    <ul>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
-        <li>Item</li>
+    <ul id="board">
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
     </ul>
 
-    <section>Placeholder</section>
+    <section id="score">
+        <span id="moves">10 moves</span>
+        <ul id="stars">
+            <li class="star"></li>
+            <li class="star"></li>
+            <li class="star"></li>
+        </ul>
+        <!-- Prevent submit with type=button -->
+        <button type="button" id="reset"></button>
+    </section>
 
     <script src="js/app.js"></script>
 </body>
