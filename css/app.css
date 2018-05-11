@@ -112,9 +112,14 @@ h1 {
 
 /*Icons*/
 
-.fire-icon {
-    background-image: url(../img/fire.svg);
-}
+.airplane-icon { background-image: url(../img/airplane.svg); }
+.art-icon { background-image: url(../img/art.svg); }
+.bell-icon { background-image: url(../img/bell.svg); }
+.dice-icon { background-image: url(../img/dice.svg); }
+.fire-icon { background-image: url(../img/fire.svg); }
+.paw-icon { background-image: url(../img/paw.svg); }
+.sun-icon { background-image: url(../img/sun.svg); }
+.world-icon { background-image: url(../img/world.svg); }
 
 /*Score*/
 
