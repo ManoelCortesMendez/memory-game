@@ -60,38 +60,37 @@ h1 {
 
 .card {
     border-radius: 8px;
-    backface-visibility: hidden; /*Hide backface of front and back*/
     box-shadow: 0 0 24px grey;
     grid-area: card; /*Superpose front and back by positioning them on same area*/
 }
 
 .card-front {
-    background-color: #02ccba;
-    /*Style icons --- icons added in .card-icon*/
-    background-size: 56px;
-    background-position: center;
-    background-repeat: no-repeat;
-    transform: rotateY(180deg); /*Start with front facing down*/
+    background-color: white; /*Ultimatelly icon fill color --- see icon classes*/
+    backface-visibility: hidden; /*Make front's back invisible*/
+    transform: rotateY(180deg); /*Start with card's front facing down*/
+    z-index: 1; /*Ensure clicked card is in front of others during flip animation*/
 }
 
 .card-back {
-    /*No rotateY() this time --- to start with back facing up*/
+    /*No rotateY() this time --- to start with card's back facing up*/
     background-color: #2e3d49;
 }
 
 /*Animations*/
 
-/* TODO: Change :hover to JS click listener */
+/* TODO: Change :hover effect to JS click listener */
 .card-container:hover .card-front {
     animation: show-front;
+    /*Animation parameters --- must be defined next to animation call*/
     animation-duration: .4s;
     animation-timing-function: linear;
     animation-fill-mode: forwards; /*Prevent reset after animation*/
 }
 
-/* TODO: Change :hover to JS click listener */
+/* TODO: Change :hover effect to JS click listener */
 .card-container:hover .card-back {
     animation: hide-back;
+    /*Animation parameters --- must be defined next to animation call*/
     animation-duration: .4s;
     animation-timing-function: linear;
     animation-fill-mode: forwards; /*Prevent reset after animation*/
@@ -106,20 +105,22 @@ h1 {
 
 @keyframes hide-back {
     from { transform: rotateY(0deg) scale(1); }
-    50% { transform: rotateY(-90deg) scale(1.6); }
-    to { transform: rotateY(-180deg) scale(1); }
+    50% { transform: rotateY(-90deg) scale(1.6); background-color: #2e3d49; }
+    51% { background-color: #02b3e4; } /*Make bg color change instant*/
+    to { transform: rotateY(-180deg) scale(1); background-color: #02b3e4; }
 }
 
 /*Icons*/
 
-.airplane-icon { background-image: url(../img/airplane.svg); }
-.art-icon { background-image: url(../img/art.svg); }
-.bell-icon { background-image: url(../img/bell.svg); }
-.dice-icon { background-image: url(../img/dice.svg); }
-.fire-icon { background-image: url(../img/fire.svg); }
-.paw-icon { background-image: url(../img/paw.svg); }
-.sun-icon { background-image: url(../img/sun.svg); }
-.world-icon { background-image: url(../img/world.svg); }
+/*Use icons as masks to be able to change their fill color --- see .card-front*/
+.airplane-icon { -webkit-mask: url(../img/airplane.svg) no-repeat center/56px; }
+.art-icon { -webkit-mask: url(../img/art.svg) no-repeat center/56px; }
+.bell-icon { -webkit-mask: url(../img/bell.svg) no-repeat center/56px; }
+.dice-icon { -webkit-mask: url(../img/dice.svg) no-repeat center/56px; }
+.fire-icon { -webkit-mask: url(../img/fire.svg) no-repeat center/56px; }
+.paw-icon { -webkit-mask: url(../img/paw.svg) no-repeat center/56px; }
+.sun-icon { -webkit-mask: url(../img/sun.svg) no-repeat center/56px; }
+.world-icon { -webkit-mask: url(../img/world.svg) no-repeat center/56px; }
 
 /*Score*/
 
