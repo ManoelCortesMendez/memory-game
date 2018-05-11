@@ -28,6 +28,7 @@ h1 {
 /*Board*/
 
 #board {
+    perspective: 4000px; /*Give depth to card flip animation*/
     width: 80vw; /*Scale with viewport width*/
     height: 80vw; /*Scale identically --- to maintain 1:1 aspect ratio*/
     min-width: 320px;
@@ -48,13 +49,71 @@ h1 {
     box-shadow: 0 0 32px grey;
 }
 
-.card {
-    width: 100%;
-    height: 100%;
-    background-color: #2e3d49;
-    border-radius: 8px;
+/*Cards*/
+
+.card-container {
     cursor: pointer;
+    display: grid; /*Create single grid area to superpose card front and back*/
+    grid-template-areas:
+    "card";
+}
+
+.card {
+    border-radius: 8px;
+    backface-visibility: hidden; /*Hide backface of front and back*/
     box-shadow: 0 0 24px grey;
+    grid-area: card; /*Superpose front and back by positioning them on same area*/
+}
+
+.card-front {
+    background-color: #02ccba;
+    /*Style icons --- icons added in .card-icon*/
+    background-size: 56px;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: rotateY(180deg); /*Start with front facing down*/
+}
+
+.card-back {
+    /*No rotateY() this time --- to start with back facing up*/
+    background-color: #2e3d49;
+}
+
+/*Animations*/
+
+/* TODO: Change :hover to JS click listener */
+.card-container:hover .card-front {
+    animation: show-front;
+    animation-duration: .4s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards; /*Prevent reset after animation*/
+}
+
+/* TODO: Change :hover to JS click listener */
+.card-container:hover .card-back {
+    animation: hide-back;
+    animation-duration: .4s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards; /*Prevent reset after animation*/
+}
+
+/*Flip cards realistically*/
+@keyframes show-front {
+    from { transform: rotateY(180deg) scale(1); }
+    50% { transform: rotateY(90deg) scale(1.6); }
+    to { transform: rotateY(0deg) scale(1); }
+}
+
+@keyframes hide-back {
+    from { transform: rotateY(0deg) scale(1); }
+    50% { transform: rotateY(-90deg) scale(1.6); }
+    to { transform: rotateY(-180deg) scale(1); }
+}
+
+/*Icons*/
+
+.fire-icon {
+    background-image: url(../img/fire.svg);
 }
 
 /*Score*/
