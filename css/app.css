@@ -2,7 +2,7 @@
 
 body {
     margin: 0; /*Reset margins*/
-    background-image: url(../img/geometric-bg-light.png); /*Default: Repeat img*/
+    background-image: url(../img/light-geo-bg.png); /*Default: Repeat img*/
     background-position: center; /*Grow bg from center*/
     display: grid;
     grid-template-areas:
@@ -65,10 +65,9 @@ h1 {
 }
 
 .card-front {
-    background-color: white; /*Ultimatelly icon fill color --- see icon classes*/
     backface-visibility: hidden; /*Make front's back invisible*/
     transform: rotateY(180deg); /*Start with card's front facing down*/
-    z-index: 1; /*Ensure clicked card is in front of others during flip animation*/
+    z-index: 1; /*Ensure card fronts are in front of card backs*/
 }
 
 .card-back {
@@ -76,27 +75,14 @@ h1 {
     background-color: #2e3d49;
 }
 
-/*Animations*/
+/* Animations */
 
-/* TODO: Change :hover effect to JS click listener */
-.reveal-front {
-    animation: reveal-front;
-    /*Animation parameters --- must be defined next to animation call*/
-    animation-duration: .4s;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards; /*Prevent reset after animation*/
-}
+/* Animation shorthand: name, duration, timing, preserve */
+.reveal-front { animation: reveal-front .4s linear forwards; }
+.hide-back { animation: hide-back .4s linear forwards; }
+.hide-front { animation: hide-front .4s linear forwards; }
+.reveal-back { animation: reveal-back .4s linear forwards; }
 
-/* TODO: Change :hover effect to JS click listener */
-.hide-back {
-    animation: hide-back;
-    /*Animation parameters --- must be defined next to animation call*/
-    animation-duration: .4s;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards; /*Prevent reset after animation*/
-}
-
-/*Flip cards realistically*/
 @keyframes reveal-front {
     from { transform: rotateY(180deg) scale(1); }
     50% { transform: rotateY(90deg) scale(1.6); }
@@ -105,22 +91,46 @@ h1 {
 
 @keyframes hide-back {
     from { transform: rotateY(0deg) scale(1); }
-    50% { transform: rotateY(-90deg) scale(1.6); background-color: #2e3d49; }
-    51% { background-color: #02b3e4; } /*Make bg color change instant*/
-    to { transform: rotateY(-180deg) scale(1); background-color: #02b3e4; }
+    50% { transform: rotateY(-90deg) scale(1.6); }
+    to { transform: rotateY(-180deg) scale(1); }
+}
+
+@keyframes hide-front {
+    from { transform: rotateY(0deg) scale(1); }
+    50% { transform: rotateY(90deg) scale(1.6); }
+    to { transform: rotateY(180deg) scale(1); }
+}
+
+@keyframes reveal-back {
+    from { transform: rotateY(-180deg) scale(1); }
+    50% { transform: rotateY(-90deg) scale(1.6); }
+    to { transform: rotateY(0deg) scale(1); }
+}
+
+.matched-card {
+    /* Transition shorthand: property, duration */
+    transition: background-color .4s;
+    /* Overpower priority of animation bg with !important */
+    background-color: green !important;
+}
+
+.mismatched-card {
+    /* Transition shorthand: property, duration */
+    transition: background-color .4s;
+    /* Overpower priority of animation bg with !important */
+    background-color: red !important;
 }
 
 /*Icons*/
 
-/*Use icons as masks to be able to change their fill color --- see .card-front*/
-.airplane-icon { -webkit-mask: url(../img/airplane.svg) no-repeat center/56px; }
-.art-icon { -webkit-mask: url(../img/art.svg) no-repeat center/56px; }
-.bell-icon { -webkit-mask: url(../img/bell.svg) no-repeat center/56px; }
-.dice-icon { -webkit-mask: url(../img/dice.svg) no-repeat center/56px; }
-.fire-icon { -webkit-mask: url(../img/fire.svg) no-repeat center/56px; }
-.paw-icon { -webkit-mask: url(../img/paw.svg) no-repeat center/56px; }
-.sun-icon { -webkit-mask: url(../img/sun.svg) no-repeat center/56px; }
-.world-icon { -webkit-mask: url(../img/world.svg) no-repeat center/56px; }
+.plane-icon { background: #02b3e4 url(../img/plane.png) no-repeat center/56px; }
+.art-icon { background: #02b3e4 url(../img/art.png) no-repeat center/56px; }
+.cloud-icon { background: #02b3e4 url(../img/cloud.png) no-repeat center/56px; }
+.die-icon { background: #02b3e4 url(../img/die.png) no-repeat center/56px; }
+.fire-icon { background: #02b3e4 url(../img/fire.png) no-repeat center/56px; }
+.paw-icon { background: #02b3e4 url(../img/paw.png) no-repeat center/56px; }
+.sun-icon { background: #02b3e4 url(../img/sun.png) no-repeat center/56px; }
+.world-icon { background: #02b3e4 url(../img/world.png) no-repeat center/56px; }
 
 /*Score*/
 
@@ -134,13 +144,13 @@ h1 {
     align-items: center; /*Align children vertically*/
 }
 
-#moves {
+#moves-counter {
     font-family: Montserrat, sans-serif;
     font-weight: 800;
     color: #0086C3;
 }
 
-#stars {
+#stars-counter {
     list-style-type: none;
     padding: 0; /*Reset paddings*/
     display: flex; /*Default to horizontal alignment*/
@@ -151,6 +161,11 @@ h1 {
     height: 40px;
     background-color: #0086C3;
     -webkit-mask: url(../img/star-on.svg); /*Use svg image as mask*/
+    -webkit-mask-size: cover; /*Fit svg to parent*/
+}
+
+.star-outlined {
+    -webkit-mask: url(../img/star-off.svg); /*Use svg image as mask*/
     -webkit-mask-size: cover; /*Fit svg to parent*/
 }
 
