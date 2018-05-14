@@ -1,17 +1,17 @@
-/*Use IIFE to avoid polluting global scope*/
+/* Use IIFE to avoid polluting global scope */
 (function () {
 
     /* Get elements */
 
     // Define list of all card icons -- each appears twice to form pairs
     const cardIcons = ["plane-icon", "art-icon", "cloud-icon", "die-icon", "fire-icon", "paw-icon", "sun-icon", "world-icon", "plane-icon", "art-icon", "cloud-icon", "die-icon", "fire-icon", "paw-icon", "sun-icon", "world-icon"];
-    const cardFronts = document.getElementsByClassName('card-front');
-    const resetButton = document.getElementById('reset-button');
     const board = document.getElementById('board');
+    const cardFronts = document.getElementsByClassName('card-front');
     const movesCounter = document.getElementById('moves-counter');
     let movesCount = 0;
     const starsCounter = document.getElementById('stars-counter');
-    let firstCard, secondCard;
+    const resetButton = document.getElementById('reset-button');
+    let firstCard, secondCard; /* Save between clicks -- see playGame() */
 
     /* Declare functions */
 
@@ -66,6 +66,7 @@
         const firstIcon = firstCard.firstElementChild.classList[2];
         const secondIcon = secondCard.firstElementChild.classList[2];
 
+        // Return true if cards match, false otherwise
         if (firstIcon === secondIcon) {
             return true;
         } else {
@@ -80,6 +81,8 @@
     function styleMismatchedCard(cardContainer) {
         cardContainer.firstElementChild.classList.add('mismatched-card');
     }
+
+    // TODO: implement victory message
 
     function incrementMovesCounter() {
         movesCount += 1;
@@ -97,11 +100,11 @@
     }
 
     function adjustStarsCounter() {
-        if (movesCount > 9) {
+        if (movesCount > 32) {
             starsCounter.children[0].classList.add('star-outlined');
-        } else if (movesCount > 6) {
+        } else if (movesCount > 30) {
             starsCounter.children[1].classList.add('star-outlined');
-        } else if (movesCount > 3) {
+        } else if (movesCount > 28) {
             starsCounter.children[2].classList.add('star-outlined');
         }
     }
@@ -119,7 +122,7 @@
                 mismatchedPair[0].classList.remove('mismatched-card');
                 mismatchedPair[1].classList.remove('mismatched-card');
 
-                // Hide pair
+                // Hide mismatched pair
                 hideCard(mismatchedPair[0].parentElement);
                 hideCard(mismatchedPair[1].parentElement);
             }
@@ -139,12 +142,13 @@
             // Reveal card
             revealCard(cardContainer);
 
-            // Assess card equality --- if mv counter is even
+            // Assess whether cards match -- if moves counter is even
             if (movesCount % 2 === 1) {
                 firstCard = cardContainer;
             } else {
                 secondCard = cardContainer;
 
+                // Apply appropriate styling for match, mismatch
                 if (compareCards(firstCard, secondCard)) {
                     styleMatchedCard(firstCard);
                     styleMatchedCard(secondCard);
@@ -163,12 +167,13 @@
     });
 
     resetButton.addEventListener('click', function () {
-        // Reload page to reset -- a bit lazy but easy
+        // Reload page to reset
         document.location.reload();
     });
 
     /* Call functions */
 
+    // Reset game after page load --- ie initial set-up
     resetGame(cardIcons, cardFronts);
 
 })();

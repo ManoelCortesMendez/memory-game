@@ -1,18 +1,18 @@
-/*Body*/
+/* Body */
 
 body {
-    margin: 0; /*Reset margins*/
-    background-image: url(../img/light-geo-bg.png); /*Default: Repeat img*/
-    background-position: center; /*Grow bg from center*/
-    display: grid;
+    margin: 0; /* Reset margins */
+    background-image: url(../img/light-geo-bg.png); /* Default: Repeat img */
+    background-position: center; /* Grow bg from center */
+    display: grid; /* Main CSS grid layout */
     grid-template-areas:
     "header"
     "board"
     "score";
-    justify-items: center; /*Center children horizontally*/
+    justify-items: center; /* Center children horizontally */
 }
 
-/*Header*/
+/* Header */
 
 h1 {
     font-family: 'Montserrat', sans-serif;
@@ -20,17 +20,17 @@ h1 {
     font-weight: 800;
     font-size: 40px;
     color: #0086C3;
-    margin: 0; /*Reset margins*/
+    margin: 0; /* Reset margins */
     margin-top: 40px;
     grid-area: header;
 }
 
-/*Board*/
+/* Board */
 
 #board {
-    perspective: 4000px; /*Give depth to card flip animation*/
-    width: 80vw; /*Scale with viewport width*/
-    height: 80vw; /*Scale identically --- to maintain 1:1 aspect ratio*/
+    perspective: 4000px; /* Give depth to card flip animation */
+    width: 80vw; /* Scale with viewport width */
+    height: 80vw; /* Scale identically --- to maintain 1:1 aspect ratio */
     min-width: 320px;
     min-height: 320px;
     max-width: 640px;
@@ -38,22 +38,23 @@ h1 {
     background: linear-gradient(to bottom right, #E5D3B8, #0086C3);
     border-radius: 8px;
     list-style-type: none;
-    margin: 0; /*Reset margins*/
+    margin: 0; /* Reset margins */
     margin-top: 32px;
-    padding: 0; /*Reset paddings*/
+    padding: 0; /* Reset paddings */
     padding: 32px;
     grid-area: board;
-    display: grid;
+    display: grid; /* Lay cards in their own CSS grid layout */
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 24px;
     box-shadow: 0 0 32px grey;
 }
 
-/*Cards*/
+/* Cards */
 
+/* Use container as a convenient proxy for a card */
 .card-container {
     cursor: pointer;
-    display: grid; /*Create single grid area to superpose card front and back*/
+    display: grid; /* Use single-area grid to superpose front and back */
     grid-template-areas:
     "card";
 }
@@ -61,23 +62,23 @@ h1 {
 .card {
     border-radius: 8px;
     box-shadow: 0 0 24px grey;
-    grid-area: card; /*Superpose front and back by positioning them on same area*/
+    grid-area: card; /* Position front, back on same area to superpose them */
 }
 
 .card-front {
-    backface-visibility: hidden; /*Make front's back invisible*/
-    transform: rotateY(180deg); /*Start with card's front facing down*/
-    z-index: 1; /*Ensure card fronts are in front of card backs*/
+    backface-visibility: hidden; /* Make front's back invisible */
+    transform: rotateY(180deg); /* Start with card's front facing down */
+    z-index: 1; /* Ensure card fronts are in front of card backs */
 }
 
 .card-back {
-    /*No rotateY() this time --- to start with card's back facing up*/
+    /* No rotateY() this time --- to start with card's back facing up */
     background-color: #2e3d49;
 }
 
 /* Animations */
 
-/* Animation shorthand: name, duration, timing, preserve */
+/* Animation shorthand: name, duration, timing, preserve-anim */
 .reveal-front { animation: reveal-front .4s linear forwards; }
 .hide-back { animation: hide-back .4s linear forwards; }
 .hide-front { animation: hide-front .4s linear forwards; }
@@ -110,19 +111,23 @@ h1 {
 .matched-card {
     /* Transition shorthand: property, duration */
     transition: background-color .4s;
-    /* Overpower priority of animation bg with !important */
+    /* Override priority of animation bg with !important */
+    /* TODO: pick nicer green tone */
     background-color: green !important;
 }
 
 .mismatched-card {
     /* Transition shorthand: property, duration */
     transition: background-color .4s;
-    /* Overpower priority of animation bg with !important */
+    /* Override priority of animation bg with !important */
+    /* TODO: pick nicer red tone */
     background-color: red !important;
 }
 
-/*Icons*/
+/* Icons */
 
+/* Attribute card icons using classes */
+/* Background shorthand: bg-color, bg-image, repeat, position, size */
 .plane-icon { background: #02b3e4 url(../img/plane.png) no-repeat center/56px; }
 .art-icon { background: #02b3e4 url(../img/art.png) no-repeat center/56px; }
 .cloud-icon { background: #02b3e4 url(../img/cloud.png) no-repeat center/56px; }
@@ -139,9 +144,9 @@ h1 {
     border-radius: 8px;
     margin-top: 16px;
     grid-area: score;
-    display: flex;
-    justify-content: space-between; /*Space children evenly*/
-    align-items: center; /*Align children vertically*/
+    display: flex; /* Flexbox: Default to horizontal layout -- for mobile */
+    justify-content: space-between; /* Space children evenly */
+    align-items: center; /* Align children vertically */
 }
 
 #moves-counter {
@@ -152,27 +157,32 @@ h1 {
 
 #stars-counter {
     list-style-type: none;
-    padding: 0; /*Reset paddings*/
-    display: flex; /*Default to horizontal alignment*/
+    padding: 0; /* Reset paddings */
+    display: flex; /* Flexbox: Default to horizontal layout -- for mobile */
 }
 
 .star {
     width: 40px;
     height: 40px;
     background-color: #0086C3;
-    -webkit-mask: url(../img/star-on.svg); /*Use svg image as mask*/
-    -webkit-mask-size: cover; /*Fit svg to parent*/
+    -webkit-mask: url(../img/star-on.svg); /* Use svg image as mask */
+    -webkit-mask-size: cover; /* Fit svg to parent */
 }
 
 .star-outlined {
-    -webkit-mask: url(../img/star-off.svg); /*Use svg image as mask*/
-    -webkit-mask-size: cover; /*Fit svg to parent*/
+    -webkit-mask: url(../img/star-off.svg); /* Use svg image as mask */
+    -webkit-mask-size: cover; /* Fit svg to parent */
 }
 
+/* TODO: implement click effect on button */
 #reset-button {
     width: 40px;
     height: 40px;
     background-color: #0086C3;
-    -webkit-mask: url(../img/reset-button.svg); /*Use svg image as mask*/
-    -webkit-mask-size: cover; /*Fit svg to parent*/
+    -webkit-mask: url(../img/reset-button.svg); /* Use svg image as mask */
+    -webkit-mask-size: cover; /* Fit svg to parent */
 }
+
+/* TODO: Use media queries to build responsive design: one with score below (mobile), one with score on the left (desktop) --- so just too */
+
+/* TODO: Customize color scheme to distinguish it from Udacity */
