@@ -12,6 +12,14 @@
     const starsCounter = document.getElementById('stars-counter');
     const resetButton = document.getElementById('reset-button');
     let firstCard, secondCard; /* Save between clicks -- see playGame() */
+    const victoryModal = document.getElementById('victory-modal');
+    const resetBtnModal = document.getElementById('reset-btn-modal');
+    let matchesCount = 0;
+    const modalStats = document.querySelectorAll('#stats>.stat');
+    let stars = 3;
+    const timer = document.getElementById('timer');
+    let startTime, elapsedTime;
+    let intervalId;
 
     /* Declare functions */
 
@@ -82,8 +90,6 @@
         cardContainer.firstElementChild.classList.add('mismatched-card');
     }
 
-    // TODO: implement victory message
-
     function incrementMovesCounter() {
         movesCount += 1;
 
@@ -101,17 +107,50 @@
 
     function adjustStarsCounter() {
         // If <= 30 moves, 3 stars; > 30, 2; > 35, 1 star; > 40, 0
-        if (movesCount > 40) {
-            starsCounter.children[0].classList.add('star-outlined');
-        } else if (movesCount > 35) {
-            starsCounter.children[1].classList.add('star-outlined');
+        if (movesCount > 35) {
+            stars = 1;
         } else if (movesCount > 30) {
-            starsCounter.children[2].classList.add('star-outlined');
+            stars = 2;
         }
+
+        switch (stars) {
+            case 2:
+                starsCounter.children[2].classList.add('star-outlined');
+                break;
+            case 1:
+                starsCounter.children[1].classList.add('star-outlined');
+        }
+    }
+
+    function checkIfVictory(currentMatches) {
+        if (currentMatches === 8) {
+            // Stop timer
+            clearInterval(intervalId);
+
+            // Set modal stats
+            modalStats[0].innerText = `Time: ${elapsedTime}s`;
+            modalStats[1].innerText = `Moves: ${movesCount/2}`;
+            modalStats[2].innerText = `Stars: ${stars}`;
+
+            // Display modal
+            victoryModal.showModal();
+        }
+    }
+
+    function startTimer() {
+        elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+        timer.innerText = `${elapsedTime} s`;
     }
 
     /* Main function --- control flow of game */
     function playGame(clickEvent) {
+        // Start timer on first move
+        if (movesCount === 0) {
+            startTime = Date.now()
+
+            // Call startTimer() every 1 second
+            intervalId = window.setInterval(startTimer, 1000);
+        }
 
         // Check if movesCount is pair --- if not, no mismatched pairs
         if (movesCount % 2 === 0) {
@@ -152,9 +191,17 @@
 
                 // Apply appropriate styling for match or mismatch
                 if (compareCards(firstCard, secondCard)) {
+                    // Increment matches count
+                    matchesCount += 1;
+
+                    // Check for a victory
+                    checkIfVictory(matchesCount);
+
+                    // Style matches
                     styleMatchedCard(firstCard);
                     styleMatchedCard(secondCard);
                 } else {
+                    // Style mismatches
                     styleMismatchedCard(firstCard);
                     styleMismatchedCard(secondCard);
                 }
@@ -174,8 +221,23 @@
         document.location.reload();
     });
 
+    resetBtnModal.addEventListener('click', function () {
+        // Reload page to reset
+        document.location.reload();
+    });
+
     /* Call functions */
 
     // Reset game immediately after page load --- ie initial set-up
     resetGame(cardIcons, cardFronts);
 })();
+
+// TODO: commit regularly and push to remote
+
+// TODO: change star rating to go down to 1, not 0
+
+// TODO: ensure code conforms to all Udacity style guides
+
+// TODO: update README with game details and dependencies
+
+// TODO: clean comments one last time

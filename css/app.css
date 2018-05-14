@@ -31,8 +31,8 @@ h1 {
     perspective: 4000px; /* Give depth to card flip animation */
     width: 80vw; /* Scale with viewport width */
     height: 80vw; /* Scale identically --- to maintain 1:1 aspect ratio */
-    min-width: 320px;
-    min-height: 320px;
+    min-width: 240px;
+    min-height: 240px;
     max-width: 640px;
     max-height: 640px;
     background: linear-gradient(to bottom right, #E5D3B8, #0086C3);
@@ -74,6 +74,40 @@ h1 {
 .card-back {
     /* No rotateY() this time --- to start with card's back facing up */
     background-color: #2e3d49;
+}
+
+#victory-modal {
+    font-family: Montserrat, sans-serif;
+    border: none;
+    border-radius: 8px;
+    background-color: #66bb6a;
+    color: white;
+    text-align: center;
+}
+
+#victory-modal h2 {
+    margin: 0; /* Reset margins */
+}
+
+#victory-modal::backdrop {
+    background-color: grey;
+    opacity: .5;
+}
+
+#reset-btn-modal {
+    background-color: #98ee99;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+}
+
+#reset-btn-modal:hover {
+    box-shadow: 0 0 16px grey;
+}
+
+#stats {
+    list-style-type: none;
+    padding: 0; /* Reset paddings */
 }
 
 /* Animations */
@@ -147,7 +181,7 @@ h1 {
     align-items: center; /* Align children vertically */
 }
 
-#moves-counter {
+.score-text {
     font-family: Montserrat, sans-serif;
     font-weight: 800;
     color: #0086C3;
@@ -206,5 +240,3 @@ h1 {
         flex-direction: column; /* Make stars counter vertical */
     }
 }
-
-/* TODO: update readme */

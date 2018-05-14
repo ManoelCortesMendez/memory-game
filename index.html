@@ -79,15 +79,26 @@
     </ul>
 
     <section id="score">
-        <span id="moves-counter">0 moves</span>
+        <span id="moves-counter" class="score-text">0 moves</span>
         <ul id="stars-counter">
             <li class="star"></li>
             <li class="star"></li>
             <li class="star"></li>
         </ul>
+        <span id="timer" class="score-text">0 s</span>
         <!-- Prevent submit with type=button -->
         <button type="button" id="reset-button"></button>
     </section>
+
+    <dialog id="victory-modal">
+        <h2>You won!</h1>
+        <ul id="stats">
+            <li class="stat">Time: </li>
+            <li class="stat">Moves: </li>
+            <li class="stat">Stars: </li>
+        </ul>
+        <button id="reset-btn-modal" type="button">Play again</button>
+    </dialog>
 
     <script src="js/app.js"></script>
 </body>
