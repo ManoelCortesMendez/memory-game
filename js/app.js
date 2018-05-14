@@ -87,28 +87,30 @@
     function incrementMovesCounter() {
         movesCount += 1;
 
-        switch (movesCount) {
-            case 0:
-                movesCounter.innerText = `${movesCount} moves`;
-                break;
-            case 1:
-                movesCounter.innerText = `${movesCount} move`;
-                break;
-            default:
-                movesCounter.innerText = `${movesCount} moves`;
+        // Increment displayed move counter once per two card flips
+        if (movesCount % 2 === 0) {
+            switch (movesCount) {
+                case 2:
+                    movesCounter.innerText = `${movesCount/2} move`;
+                    break;
+                default:
+                    movesCounter.innerText = `${movesCount/2} moves`;
+            }
         }
     }
 
     function adjustStarsCounter() {
-        if (movesCount > 32) {
+        // If <= 30 moves, 3 stars; > 30, 2; > 35, 1 star; > 40, 0
+        if (movesCount > 40) {
             starsCounter.children[0].classList.add('star-outlined');
-        } else if (movesCount > 30) {
+        } else if (movesCount > 35) {
             starsCounter.children[1].classList.add('star-outlined');
-        } else if (movesCount > 28) {
+        } else if (movesCount > 30) {
             starsCounter.children[2].classList.add('star-outlined');
         }
     }
 
+    /* Main function --- control flow of game */
     function playGame(clickEvent) {
 
         // Check if movesCount is pair --- if not, no mismatched pairs
@@ -139,7 +141,7 @@
             // Get clicked card container
             const cardContainer = clickEvent.target.parentElement;
 
-            // Reveal card
+            // Reveal clicked card
             revealCard(cardContainer);
 
             // Assess whether cards match -- if moves counter is even
@@ -148,7 +150,7 @@
             } else {
                 secondCard = cardContainer;
 
-                // Apply appropriate styling for match, mismatch
+                // Apply appropriate styling for match or mismatch
                 if (compareCards(firstCard, secondCard)) {
                     styleMatchedCard(firstCard);
                     styleMatchedCard(secondCard);
@@ -162,6 +164,7 @@
 
     /* Add event listeners */
 
+    // Launch game when board is clicked
     board.addEventListener('click', function (event) {
         playGame(event);
     });
@@ -173,7 +176,6 @@
 
     /* Call functions */
 
-    // Reset game after page load --- ie initial set-up
+    // Reset game immediately after page load --- ie initial set-up
     resetGame(cardIcons, cardFronts);
-
 })();

@@ -112,16 +112,14 @@ h1 {
     /* Transition shorthand: property, duration */
     transition: background-color .4s;
     /* Override priority of animation bg with !important */
-    /* TODO: pick nicer green tone */
-    background-color: green !important;
+    background-color: #66bb6a !important; /* Material green 400 */
 }
 
 .mismatched-card {
     /* Transition shorthand: property, duration */
     transition: background-color .4s;
     /* Override priority of animation bg with !important */
-    /* TODO: pick nicer red tone */
-    background-color: red !important;
+    background-color: #ef5350 !important; /* Material red 400 */
 }
 
 /* Icons */
@@ -174,15 +172,39 @@ h1 {
     -webkit-mask-size: cover; /* Fit svg to parent */
 }
 
-/* TODO: implement click effect on button */
 #reset-button {
     width: 40px;
     height: 40px;
     background-color: #0086C3;
     -webkit-mask: url(../img/reset-button.svg); /* Use svg image as mask */
     -webkit-mask-size: cover; /* Fit svg to parent */
+    cursor: pointer;
 }
 
-/* TODO: Use media queries to build responsive design: one with score below (mobile), one with score on the left (desktop) --- so just too */
+#reset-button:hover {
+    background-color: #003c8f;
+}
 
-/* TODO: Customize color scheme to distinguish it from Udacity */
+/* Media queries: responsive design */
+
+/* Desktop UI --- move score panel to side */
+@media screen and (min-width: 700px) {
+    /* Change base CSS grid layout */
+    body {
+        grid-template-columns: auto 80px 800px auto;
+        grid-template-areas:
+        ". . header ."
+        ". score board .";
+    }
+
+    #score {
+        flex-direction: column; /* Make score panel vertical */
+        justify-content: center; /* Bring together moves, stars, and reset */
+    }
+
+    #stars-counter {
+        flex-direction: column; /* Make stars counter vertical */
+    }
+}
+
+/* TODO: update readme */
