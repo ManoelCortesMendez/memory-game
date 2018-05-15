@@ -1,165 +1,84 @@
-/* Body */
-
+/* General */
 body {
-    margin: 0; /* Reset margins */
-    background-image: url(../img/light-geo-bg.png); /* Default: Repeat img */
-    background-position: center; /* Grow bg from center */
-    display: grid; /* Main CSS grid layout */
-    grid-template-areas:
-    "header"
-    "board"
-    "score";
-    justify-items: center; /* Center children horizontally */
+  margin: 0; /* Reset margins */
+  background: url(../img/geo-bg-light.png) center; /* Grow bg from center */
+  display: grid; /* Define main CSS grid layout */
+  grid-template-areas:
+  "header"
+  "gameboard"
+  "score-panel";
+  justify-items: center; /* Center children horizontally */
 }
 
 /* Header */
-
 h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-style: italic;
-    font-weight: 800;
-    font-size: 40px;
-    color: #0086C3;
-    margin: 0; /* Reset margins */
-    margin-top: 40px;
-    grid-area: header;
+  font: italic 800 40px Montserrat, sans-serif;
+  color: #0086c3;
+  margin: 0; /* Reset margins */
+  margin-top: 40px;
+  grid-area: header;
 }
 
-/* Board */
-
-#board {
-    perspective: 4000px; /* Give depth to card flip animation */
-    width: 80vw; /* Scale with viewport width */
-    height: 80vw; /* Scale identically --- to maintain 1:1 aspect ratio */
-    min-width: 240px;
-    min-height: 240px;
-    max-width: 640px;
-    max-height: 640px;
-    background: linear-gradient(to bottom right, #E5D3B8, #0086C3);
-    border-radius: 8px;
-    list-style-type: none;
-    margin: 0; /* Reset margins */
-    margin-top: 32px;
-    padding: 0; /* Reset paddings */
-    padding: 32px;
-    grid-area: board;
-    display: grid; /* Lay cards in their own CSS grid layout */
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 24px;
-    box-shadow: 0 0 32px grey;
+/* Gameboard */
+#gameboard {
+  perspective: 4000px; /* Give depth to card flip animation */
+  width: 80vw; /* Scale with viewport width */
+  height: 80vw; /* Scale identically to maintain 1:1 aspect ratio */
+  /* Set size contraints to make design work at any screen size */
+  min-width: 240px;
+  min-height: 240px;
+  max-width: 640px;
+  max-height: 640px;
+  background: linear-gradient(to bottom right, #e5d3b8, #0086c3);
+  border-radius: 8px;
+  list-style-type: none;
+  margin: 0; /* Reset margins */
+  margin-top: 32px;
+  padding: 0; /* Reset paddings */
+  padding: 32px;
+  box-shadow: 0 0 32px grey;
+  grid-area: gameboard;
+  display: grid; /* Lay cards in their own CSS grid layout */
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 24px;
 }
 
-/* Cards */
-
-/* Use container as a convenient proxy for a card */
 .card-container {
-    cursor: pointer;
-    display: grid; /* Use single-area grid to superpose front and back */
-    grid-template-areas:
-    "card";
+  cursor: pointer;
+  display: grid; /* Use single-area grid to superpose front and back */
+  grid-template-areas:
+  "card";
 }
 
 .card {
-    border-radius: 8px;
-    box-shadow: 0 0 24px grey;
-    grid-area: card; /* Position front, back on same area to superpose them */
+  border-radius: 8px;
+  box-shadow: 0 0 24px grey;
+  grid-area: card; /* Position front, back on same area to superpose them */
 }
 
 .card-front {
-    backface-visibility: hidden; /* Make front's back invisible */
-    transform: rotateY(180deg); /* Start with card's front facing down */
-    z-index: 1; /* Ensure card fronts are in front of card backs */
+  backface-visibility: hidden; /* Make front's back invisible */
+  transform: rotateY(180deg); /* Start with card's front facing down */
+  z-index: 1; /* Ensure card fronts are in the foreground */
 }
 
 .card-back {
-    /* No rotateY() this time --- to start with card's back facing up */
-    background-color: #2e3d49;
-}
-
-#victory-modal {
-    font-family: Montserrat, sans-serif;
-    border: none;
-    border-radius: 8px;
-    background-color: #66bb6a;
-    color: white;
-    text-align: center;
-}
-
-#victory-modal h2 {
-    margin: 0; /* Reset margins */
-}
-
-#victory-modal::backdrop {
-    background-color: grey;
-    opacity: .5;
-}
-
-#reset-btn-modal {
-    background-color: #98ee99;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-}
-
-#reset-btn-modal:hover {
-    box-shadow: 0 0 16px grey;
-}
-
-#stats {
-    list-style-type: none;
-    padding: 0; /* Reset paddings */
-}
-
-/* Animations */
-
-/* Animation shorthand: name, duration, timing, preserve-anim */
-.reveal-front { animation: reveal-front .4s linear forwards; }
-.hide-back { animation: hide-back .4s linear forwards; }
-.hide-front { animation: hide-front .4s linear forwards; }
-.reveal-back { animation: reveal-back .4s linear forwards; }
-
-@keyframes reveal-front {
-    from { transform: rotateY(180deg) scale(1); }
-    50% { transform: rotateY(90deg) scale(1.6); }
-    to { transform: rotateY(0deg) scale(1); }
-}
-
-@keyframes hide-back {
-    from { transform: rotateY(0deg) scale(1); }
-    50% { transform: rotateY(-90deg) scale(1.6); }
-    to { transform: rotateY(-180deg) scale(1); }
-}
-
-@keyframes hide-front {
-    from { transform: rotateY(0deg) scale(1); }
-    50% { transform: rotateY(90deg) scale(1.6); }
-    to { transform: rotateY(180deg) scale(1); }
-}
-
-@keyframes reveal-back {
-    from { transform: rotateY(-180deg) scale(1); }
-    50% { transform: rotateY(-90deg) scale(1.6); }
-    to { transform: rotateY(0deg) scale(1); }
+  /* No rotateY() this time to start with card backs facing up */
+  background-color: #2e3d49;
 }
 
 .matched-card {
-    /* Transition shorthand: property, duration */
-    transition: background-color .4s;
-    /* Override priority of animation bg with !important */
-    background-color: #66bb6a !important; /* Material green 400 */
+  transition: background-color 0.2s;
+  /* Override priority of animation bg with !important */
+  background-color: #66bb6a !important;
 }
 
 .mismatched-card {
-    /* Transition shorthand: property, duration */
-    transition: background-color .4s;
-    /* Override priority of animation bg with !important */
-    background-color: #ef5350 !important; /* Material red 400 */
+  transition: background-color 0.2s;
+  /* Override priority of animation bg with !important */
+  background-color: #ef5350 !important;
 }
 
-/* Icons */
-
-/* Attribute card icons using classes */
-/* Background shorthand: bg-color, bg-image, repeat, position, size */
 .plane-icon { background: #02b3e4 url(../img/plane.png) no-repeat center/56px; }
 .art-icon { background: #02b3e4 url(../img/art.png) no-repeat center/56px; }
 .cloud-icon { background: #02b3e4 url(../img/cloud.png) no-repeat center/56px; }
@@ -169,74 +88,138 @@ h1 {
 .sun-icon { background: #02b3e4 url(../img/sun.png) no-repeat center/56px; }
 .world-icon { background: #02b3e4 url(../img/world.png) no-repeat center/56px; }
 
-/*Score*/
-
-#score {
-    width: 320px;
-    border-radius: 8px;
-    margin-top: 16px;
-    grid-area: score;
-    display: flex; /* Flexbox: Default to horizontal layout -- for mobile */
-    justify-content: space-between; /* Space children evenly */
-    align-items: center; /* Align children vertically */
+/*Score panel*/
+#score-panel {
+  width: 320px;
+  border-radius: 8px;
+  margin-top: 16px;
+  grid-area: score-panel;
+  display: flex; /* Default: horizontal layout -- great for mobile */
+  justify-content: space-between; /* Space children evenly */
+  align-items: center; /* Center children along cross axis */
 }
 
 .score-text {
-    font-family: Montserrat, sans-serif;
-    font-weight: 800;
-    color: #0086C3;
+  margin: 16px;
+  font-family: Montserrat, sans-serif;
+  font-weight: 800;
+  color: #0086c3;
 }
 
 #stars-counter {
-    list-style-type: none;
-    padding: 0; /* Reset paddings */
-    display: flex; /* Flexbox: Default to horizontal layout -- for mobile */
+  margin: 0; /* Reset margins */
+  padding: 0; /* Reset paddings */
+  list-style-type: none;
+  display: flex; /* Default: horizontal layout -- great for mobile */
 }
 
 .star {
-    width: 40px;
-    height: 40px;
-    background-color: #0086C3;
-    -webkit-mask: url(../img/star-on.svg); /* Use svg image as mask */
-    -webkit-mask-size: cover; /* Fit svg to parent */
+  width: 40px;
+  height: 40px;
+  background-color: #0086c3;
+  -webkit-mask: url(../img/star.svg); /* Use svg image as mask */
+  -webkit-mask-size: cover; /* Fit svg to parent */
 }
 
 .star-outlined {
-    -webkit-mask: url(../img/star-off.svg); /* Use svg image as mask */
-    -webkit-mask-size: cover; /* Fit svg to parent */
+  -webkit-mask: url(../img/star-outline.svg); /* Use svg image as mask */
+  -webkit-mask-size: cover; /* Fit svg to parent */
 }
 
-#reset-button {
-    width: 40px;
-    height: 40px;
-    background-color: #0086C3;
-    -webkit-mask: url(../img/reset-button.svg); /* Use svg image as mask */
-    -webkit-mask-size: cover; /* Fit svg to parent */
-    cursor: pointer;
+#reset-btn {
+  width: 40px;
+  height: 40px;
+  background-color: #0086c3;
+  cursor: pointer;
+  -webkit-mask: url(../img/reset-btn.svg); /* Use svg image as mask */
+  -webkit-mask-size: cover; /* Fit svg to parent */
 }
 
-#reset-button:hover {
-    background-color: #003c8f;
+#reset-btn:hover {
+  background-color: #003c8f;
 }
 
-/* Media queries: responsive design */
+/* Modal */
+#victory-modal {
+  font-family: Montserrat, sans-serif;
+  color: white;
+  text-align: center;
+  background-color: #66bb6a;
+  border: none;
+  border-radius: 8px;
+}
 
-/* Desktop UI --- move score panel to side */
-@media screen and (min-width: 700px) {
-    /* Change base CSS grid layout */
-    body {
-        grid-template-columns: auto 80px 800px auto;
-        grid-template-areas:
-        ". . header ."
-        ". score board .";
-    }
+#victory-modal::backdrop {
+  background-color: grey;
+  opacity: 0.8;
+}
 
-    #score {
-        flex-direction: column; /* Make score panel vertical */
-        justify-content: center; /* Bring together moves, stars, and reset */
-    }
+h2 {
+  margin: 0; /* Reset margins */
+}
 
-    #stars-counter {
-        flex-direction: column; /* Make stars counter vertical */
-    }
+#game-stats-modal {
+  padding: 0; /* Reset paddings */
+  list-style-type: none;
+}
+
+#reset-btn-modal {
+  background-color: #98ee99;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+#reset-btn-modal:hover {
+  box-shadow: 0 0 16px grey;
+}
+
+/* Animations */
+.reveal-front { animation: reveal-front 0.2s linear forwards; }
+.hide-front { animation: hide-front 0.2s linear forwards; }
+.hide-back { animation: hide-back 0.2s linear forwards; }
+.reveal-back { animation: reveal-back 0.2s linear forwards; }
+
+@keyframes reveal-front {
+  from { transform: rotateY(180deg) scale(1); }
+  50% { transform: rotateY(90deg) scale(1.6); }
+  to { transform: rotateY(0deg) scale(1); }
+}
+
+@keyframes hide-front {
+  from { transform: rotateY(0deg) scale(1); }
+  50% { transform: rotateY(90deg) scale(1.6); }
+  to { transform: rotateY(180deg) scale(1); }
+}
+
+@keyframes reveal-back {
+  from { transform: rotateY(-180deg) scale(1); }
+  50% { transform: rotateY(-90deg) scale(1.6); }
+  to { transform: rotateY(0deg) scale(1); }
+}
+
+@keyframes hide-back {
+  from { transform: rotateY(0deg) scale(1); }
+  50% { transform: rotateY(-90deg) scale(1.6); }
+  to { transform: rotateY(-180deg) scale(1); }
+}
+
+/* Media queries */
+@media screen and (min-width: 800px) {
+  /* Desktop UI: change CSS grid layout to move score panel to side */
+  body {
+    grid-template-columns: auto 80px 800px auto;
+    grid-template-areas:
+    ". . header ."
+    ". score-panel gameboard .";
+  }
+
+  #score-panel {
+    flex-direction: column; /* Make score panel vertical */
+    justify-content: center; /* Bring together moves, stars, and reset */
+  }
+
+  #stars-counter {
+    flex-direction: column; /* Make stars counter vertical */
+  }
 }
